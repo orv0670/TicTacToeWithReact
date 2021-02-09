@@ -5,9 +5,11 @@ html {
 }
 
 body {
- background-color: purple;
+ background-image: url('https://i.pinimg.com/474x/54/22/a0/5422a0013c55408dc344acf21bfbc3a2.jpg');
  color: white;
  text-align: center;
+ background-size: cover;
+
 }
 
 button {
@@ -62,8 +64,8 @@ h3 {
 }
 
 .square {
-  color: white ;
-  border-color: white;
+  color:white;
+  border-color: black;
   font-size: 6em;
   width: 1.2em;
   height: 1.2em;
