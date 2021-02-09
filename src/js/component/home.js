@@ -1,24 +1,85 @@
 import React from "react";
-
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import { Board } from "../component/board.js";
+import { ChoosePlayer } from "../component/chooseplayer.js";
 
 //create your first component
-export function Home() {
-	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
+export class Home extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			player: null,
+			winner: null
+		};
+	}
+
+	startGame() {
+		this.setState({ player: null });
+	}
+
+	setTurn(currentPlayer, player1, player2) {
+		this.setState({
+			player: currentPlayer,
+			player1: player1,
+			player2: player2
+		});
+	}
+
+	nextMove(position) {
+		this.setState({ player: this.state.player == "x" ? "o" : "x" });
+	}
+
+	declareWinner(winner) {
+		this.setState({ winner: winner });
+	}
+
+	renderMessage() {
+		if (this.state.player == null) {
+			return <h2 id="message"></h2>;
+		} else {
+			if (this.state.winner == null) {
+				return (
+					<div>
+						<h2>
+							Es el turno de {this.state.player.toUpperCase()}{" "}
+						</h2>
+						<button onClick={this.startGame.bind(this)}>
+							Comenzar de nuevo!
+						</button>
+					</div>
+				);
+			} else {
+				return (
+					<div>
+						<div></div>
+						<h1 style={{ color: "green" }}>
+							{this.state.winner.toUpperCase()} Gano!!!
+						</h1>
+						<button
+							style={{ background: "green" }}
+							onClick={this.startGame.bind(this)}>
+							Comenzar de nuevo!
+						</button>
+					</div>
+				);
+			}
+		}
+	}
+
+	render() {
+		return (
+			<div id="msg">
+				<h1>Juego de Gato En React</h1>
+				{this.renderMessage()}
+				<Board
+					currentPlayer={this.state.player}
+					onMove={this.nextMove.bind(this)}
+					onWinner={this.declareWinner.bind(this)}
+				/>
+				<ChoosePlayer
+					hide={this.state.player == null ? true : false}
+					onSetTurn={this.setTurn.bind(this)}
+				/>
+			</div>
+		);
+	}
 }
